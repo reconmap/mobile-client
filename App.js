@@ -11,7 +11,7 @@ import HomeTabNavigation from "./navigations/HomeTabNavigation";
 const Stack = createStackNavigator();
 
 export default function App() {
-  const ENV = "prod";
+  const ENV = "dev";
   const [logged, setLogged] = useState(false);
   const [userdata, setUserdata] = useState();
 

@@ -2,7 +2,7 @@ import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/HomeScreen";
-import ProjectsScreen from "../screens/ProjectsScreen";
+import ProjectStackNavigation from "../navigations/ProjectStackNavigation";
 import TasksScreen from "../screens/TasksScreen";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
@@ -29,11 +29,10 @@ export default function HomeTabNavigation() {
         showLabel:false,
         inactiveTintColor: "#a0aec0",
         style: { backgroundColor: '#1a202c', borderTopWidth:0, paddingBottom:10}
-
       }}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Projects" component={ProjectsScreen} />
+      <Tab.Screen name="Projects" component={ProjectStackNavigation} />
       <Tab.Screen name="Tasks" component={TasksScreen} />
     </Tab.Navigator>
   );
