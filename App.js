@@ -1,35 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, Image, TextInput } from 'react-native';
-import Logo from './assets/icon.png'
+import "react-native-gesture-handler";
+
+import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
+import AppContext from "./contexts/AppContext";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import LoginScreen from "./screens/LoginScreen";
+import HomeScreen from "./screens/HomeScreen";
+
+const Stack = createStackNavigator();
+
 export default function App() {
+  const ENV = "dev";
+  const [logged, setLogged] = useState(false);
+  const [userdata, setUserdata] = useState();
+
   return (
-    <View style={styles.container}>
-    <Image source={ Logo }/>
-      <Text style={styles.text}>Open up App.js to start working on your app!</Text>
-      <TextInput placeholder="Username" style={styles.textInput}/>
-      <TextInput placeholder="Password" style={styles.textInput}/>
+    <NavigationContainer>
       <StatusBar style="light" />
-    </View>
+      <AppContext.Provider value={{ userdata, setUserdata, env:ENV, setLogged }}>
+        <Stack.Navigator headerMode="none">
+          {!logged ? (
+            <Stack.Screen name="Login" component={LoginScreen} />
+          ) : (
+            <Stack.Screen name="Home" component={HomeScreen} />
+          )}
+        </Stack.Navigator>
+      </AppContext.Provider>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-    flex: 1,
-    backgroundColor: '#1a202c',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    color:'#edf2f7',
-  },
-  textInput : {
-    padding: 10,
-    borderRadius: 10,
-    backgroundColor : '#2d3748',
-    marginVertical: 10,
-    width:'100%'
-  }
-});
