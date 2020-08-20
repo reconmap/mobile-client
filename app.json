@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "mobile-client",
-    "slug": "mobile-client",
+    "name": "reconmap",
+    "slug": "reconmap",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1a202c"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
