@@ -1,16 +1,41 @@
-import React, { useState, useContext } from "react";
-import { Text, View, SafeAreaView, StyleSheet } from "react-native";
+import React, { useState, useContext, useEffect } from "react";
+import { Text, View, SafeAreaView, StyleSheet, ActivityIndicator } from "react-native";
 import AppContext from "../contexts/AppContext";
+import configuration from "./../Configuration";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const HomeScreen = () => {
   const appContext = useContext(AppContext);
   const insets = useSafeAreaInsets();
 
+  const [ tasks , setTasks ] = useState([])
+  const fetchTasks = async () => {
+    const response = await fetch(`${configuration[appContext.env].api.baseUrl}/tasks`, {
+      method: 'GET',
+      headers: { Authorization: 'Bearer ' + appContext.userdata.access_token }
+    })
+    const responseJSON = await response.json()
+    setTasks(responseJSON)
+    console.log('tasks', responseJSON)
+  }
+  useEffect(() => { 
+    // not implemented yet
+    // fetchTasks() 
+  }, [])
+  
   return (
     <View style={[styles.container,{paddingTop: insets.top,}]} >
       <Text style={styles.title}> Tasks </Text>
-    </View>
+        <View style={ styles.listWrapper}>
+        { tasks ? tasks.map( (project, index)=>{
+            return <TouchableOpacity key={index} style={ styles.listItem}>
+              <Text style={ styles.projectName }>{project.name}</Text>
+              <Text style={ styles.text }>{project.description}</Text>
+            </TouchableOpacity>
+          }) : <ActivityIndicator />}
+        </View>
+          <Text style={styles.text}>Nothing yet</Text>
+      </View>
   );
 };
 

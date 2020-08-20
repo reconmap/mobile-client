@@ -12,6 +12,8 @@ const HomeScreen = () => {
       <Text style={styles.title}>
         Welcome {appContext.userdata.name || "User"}
       </Text>
+      <Text style={styles.text}>Nothing to show </Text>
+
     </View>
   );
 };

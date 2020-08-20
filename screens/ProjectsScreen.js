@@ -3,7 +3,7 @@ import { Text, View, SafeAreaView, StyleSheet, ActivityIndicator  } from "react-
 import AppContext from "../contexts/AppContext";
 import configuration from "./../Configuration";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 
 const ProjectsScreen = () => {
   const insets = useSafeAreaInsets();
@@ -24,14 +24,14 @@ const ProjectsScreen = () => {
       <View style={[styles.container,{paddingTop: insets.top,}]} >
 
       <Text style={ styles.title }>Projects</Text>
-      <View style={ styles.listWrapper}>
-      { projects ? projects.map( (project, index)=>{
-          return <TouchableOpacity key={index} style={ styles.listItem}>
-            <Text style={ styles.projectName }>{project.name}</Text>
-            <Text style={ styles.text }>{project.description}</Text>
-          </TouchableOpacity>
-        }) : <ActivityIndicator />}
-      </View>
+        <ScrollView style={ styles.listWrapper}>
+        { projects ? projects.map( (project, index)=>{
+            return <TouchableOpacity key={index} style={ styles.listItem}>
+              <Text style={ styles.projectName }>{project.name}</Text>
+              <Text style={ styles.text }>{project.description}</Text>
+            </TouchableOpacity>
+          }) : <ActivityIndicator />}
+        </ScrollView>
       </View>
   );
 };
