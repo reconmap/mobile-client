@@ -6,7 +6,7 @@ import AppContext from "./contexts/AppContext";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./screens/LoginScreen";
-import HomeScreen from "./screens/HomeScreen";
+import HomeTabNavigation from "./navigations/HomeTabNavigation";
 
 const Stack = createStackNavigator();
 
@@ -23,7 +23,7 @@ export default function App() {
           {!logged ? (
             <Stack.Screen name="Login" component={LoginScreen} />
           ) : (
-            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="HomeTabNavigation" component={HomeTabNavigation} />
           )}
         </Stack.Navigator>
       </AppContext.Provider>

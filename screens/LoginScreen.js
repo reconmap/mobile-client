@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, Text, View, Image, TextInput, AsyncStorage,TouchableOpacity } from "react-native";
 import configuration from "./../Configuration";
 import AppContext from './../contexts/AppContext'
@@ -13,6 +13,13 @@ const LoginScreen = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState();
   
+    useEffect(() => { rememberCredentials() }, [])
+    const rememberCredentials = async () => {
+        const user = await AsyncStorage.getItem('@username')
+        user && setUsername(user)
+        const pass = await AsyncStorage.getItem('@password')
+        pass && setPassword(pass)
+    }
     const handleUsername = e => { setUsername(e); };
     const handlePassword = e => { setPassword(e); };
   
@@ -29,8 +36,10 @@ const LoginScreen = () => {
         const responseJson = await response.json();
         appContext.setUserdata(responseJson)
         console.log(responseJson)
-        await AsyncStorage.setItem("reconmap-logged", "true");
-        await AsyncStorage.setItem("accessToken", responseJson.access_token);
+        await AsyncStorage.setItem("@reconmap-logged", "true");
+        await AsyncStorage.setItem("@accessToken", responseJson.access_token);
+        await AsyncStorage.setItem("@username", username);
+        await AsyncStorage.setItem("@password", password);
         setError(false);
         appContext.setLogged(true)
       }
@@ -41,8 +50,8 @@ const LoginScreen = () => {
     return <View style={styles.container}>
     <Image source={Logo} style={styles.Logo} />
     <View style={styles.form}>
-      <TextInput onChangeText={handleUsername} placeholderTextColor="#718096" textContentType="nickname" autoCapitalize="none" placeholder="Username" style={styles.textInput} />
-      <TextInput onChangeText={handlePassword} placeholderTextColor="#718096" textContentType="password" secureTextEntry placeholder="Password" style={styles.textInput} />
+      <TextInput defaultValue={username} onChangeText={handleUsername} placeholderTextColor="#718096" textContentType="nickname" autoCapitalize="none" placeholder="Username" style={styles.textInput} />
+      <TextInput defaultValue={password} onChangeText={handlePassword} placeholderTextColor="#718096" textContentType="password" secureTextEntry placeholder="Password" style={styles.textInput} />
       <TouchableOpacity onPress={handleLogin} style={styles.button}>
         <Text style={styles.buttonText}> {!loading ? "Login in" : "Processing..."} </Text>
       </TouchableOpacity>
