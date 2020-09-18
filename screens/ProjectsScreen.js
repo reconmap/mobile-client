@@ -5,20 +5,12 @@ import configuration from "./../Configuration";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import styles from './../styles/main'
 import { SimpleLineIcons } from "@expo/vector-icons";
+import useFetch from "../hooks/useFetch";
 
 const ProjectsScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
-  const appContext = useContext(AppContext)
-  const [ projects , setProjects ] = useState()
-  const fetchProjects = async () => {
-    const response = await fetch(`${configuration[appContext.env].api.baseUrl}/projects`, {
-      method: 'GET',
-      headers: { Authorization: 'Bearer ' + appContext.userdata.access_token }
-    })
-    const responseJSON = await response.json()
-    setProjects(responseJSON)
-  }
-  useEffect(() => { fetchProjects() }, [])
+  const [projects] = useFetch('/projects')
+
   const handleShowProject = ( project ) => {
     navigation.navigate('ProjectDetails',{project})
   }
