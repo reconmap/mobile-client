@@ -1,59 +1,38 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Text, View, Alert, } from "react-native";
-import AppContext from "../contexts/AppContext";
-import configuration from "./../Configuration";
+import React from "react";
+import { View, Alert,ActivityIndicator } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from "../styles/main";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { SimpleLineIcons } from "@expo/vector-icons";
+import { ScrollView  } from "react-native-gesture-handler";
+import useFetch from "../hooks/useFetch";
+import ListItem from "../components/ListItem";
+import FullScreenMessage from "../components/FullScreenMessage";
+import Heading from "../components/Heading";
+import BtnPrimary from "../components/BtnPrimary";
 
-const HomeScreen = () => {
-  const appContext = useContext(AppContext);
+const TasksScreen = () => {
   const insets = useSafeAreaInsets();
-
-  const [tasks, setTasks] = useState();
-  const fetchTasks = async () => {
-    const response = await fetch(
-      `${configuration[appContext.env].api.baseUrl}/tasks`,
-      { method: "GET", headers: { Authorization: "Bearer " + appContext.userdata.access_token, },
-      }
-    );
-    const responseJSON = await response.json();
-    setTasks(responseJSON);
-  };
-  useEffect(() => { fetchTasks(); }, []);
+  const {data : tasks} = useFetch('/tasks')
 
   const handleNewTask = () => {
     Alert.prompt( "Enter the name of the task", '', (taskName) => { console.log(taskName); } );
   };
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
-      <View style={styles.heading}>
-        <Text style={styles.title}>Tasks</Text>
-        <TouchableOpacity style={styles.button} onPress={handleNewTask}>
-          <SimpleLineIcons name="pencil" size={16} color="white" />
-          <Text style={styles.buttonTextSmall}>New</Text>
-        </TouchableOpacity>
-      </View>
+      <Heading 
+        title="Tasks" 
+        right={<BtnPrimary icon='pencil' label="New" onPress={handleNewTask}/>} />
 
-      {tasks ? (
-        <View style={styles.listWrapper}>
-          {tasks.map((task, index) => {
-            return (
-              <TouchableOpacity key={index} style={styles.listItem}>
-                <Text style={styles.projectName}>{task.name}</Text>
-                <Text style={styles.text}>{task.description}</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      ) : (
-        <View style={{ flex: 1, justifyContent: "center" }}>
-          <Text style={styles.legend}>Nothing to show </Text>
-        </View>
-      )}
+      {!tasks ? 
+        <ActivityIndicator /> 
+          : tasks.length === 0 ? <FullScreenMessage>Nothing to show</FullScreenMessage> : (
+            <ScrollView style={styles.listWrapper}>
+              {tasks.map((task, index) => 
+                <ListItem key={index} title={task.name} description={task.description ? task.description : 'S/D'} /> 
+              )}
+           </ScrollView>
+        ) }
     </View>
   );
 };
 
-export default HomeScreen;
+export default TasksScreen;

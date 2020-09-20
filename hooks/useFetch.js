@@ -1,29 +1,25 @@
-import React, { useCallback, useContext } from 'react'
+import AsyncStorage from '@react-native-community/async-storage';
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import configuration from '../Configuration';
 import AppContext from '../contexts/AppContext';
-import secureApiFetch from '../services/api'
 
 export default function useFetch(endpoint) {
-    const [response, setResponse] = React.useState(null);
-    const [error, setError] = React.useState(null);
+    const [data, setData] = useState();
     const appContext = useContext(AppContext)
-    const fetchData = useCallback(async () => {
-        try {
-            const response = await secureApiFetch(endpoint, { 
-                method: 'GET' , 
-                headers: 
-                {
-                    Authorization: 'Bearer ' + appContext.userdata.access_token
-                  }
-            })
-            const responseJSON = await response.json()
-            setResponse(responseJSON)
-        } catch (error) {
-            setError(error);
-        }
-    }, [endpoint]);
-    React.useEffect(() => {
-        fetchData();
-    }, [fetchData]);
-    return [response, fetchData, error];
+
+    const fetchData = async () => {
+        const token = await AsyncStorage.getItem('@accessToken')
+        const response = await fetch(
+            `${configuration[appContext.env].api.baseUrl}${endpoint}`,
+            {
+                method: "GET", headers: { Authorization: "Bearer " + token },
+            }
+        );
+        const responseJSON = await response.json();
+        setData(responseJSON);
+    };
+    useEffect(() => { fetchData(); }, []);
+
+    return { data, fetchData }
 
 }

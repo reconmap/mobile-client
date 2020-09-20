@@ -18,6 +18,7 @@ export const GRAY_800 = "#2d3748";
 export const GRAY_900 = "#1a202c";
 
 export const TEXT_DEFAULT = 16;
+export const TEXT_ACTION = 20;
 export const TEXT_XL = 32;
 export const TEXT_LG = 24;
 
@@ -55,7 +56,8 @@ const styles = StyleSheet.create({
     color: GRAY_500,
     fontSize: TEXT_DEFAULT,
     textAlign: "left",
-    width:'100%'
+    width:'100%',
+    marginBottom:10
   },
   legend: {
     color: GRAY_700,
@@ -68,6 +70,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: PADDING_H,
     borderRadius: ROUNDED,
     backgroundColor: RED_600,
+    marginVertical: MARGIN_V,
+    flexDirection:'row',
+    alignItems:'center'
+  },
+  buttonSecondary: {
+    paddingVertical: PADDING_V,
+    paddingHorizontal: PADDING_H,
+    borderRadius: ROUNDED,
+    backgroundColor: GRAY_800,
     marginVertical: MARGIN_V,
     flexDirection:'row',
     alignItems:'center'
@@ -118,23 +129,50 @@ const styles = StyleSheet.create({
     flex:.6,
     resizeMode: "contain",
   },
-  projectName: {
+  listTitle: {
     color: "#edf2f7",
     fontSize: 20,
     fontWeight: "700",
   },
-  projectDescription: {
+  listDescription: {
     color: "#a0aec0",
     fontSize: 16,
   },
   listItem: {
+    flexDirection:'row',
     paddingVertical: 10,
+    alignItems:"center"
+  },
+  listStart : {
+    // marginRight: 'auto',
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    marginRight: 10 
+  },
+  listCenter : {
     textAlign: "left",
     alignItems: "flex-start",
+    flex:1,
+  },
+  listEnd : {
+    marginLeft: 'auto',
+    color:'white'
   },
   listWrapper: {
     flex: 1,
   },
+  listHeader : {
+    marginTop:MARGIN_V, 
+    marginBottom:MARGIN_V/2,
+    flexDirection:'row', alignItems:'center',
+  },
+  listHeaderTitle: {
+     marginRight:10,color: GRAY_600 ,fontWeight:'500', fontSize: TEXT_ACTION
+  },
+  listHeaderLine: {
+     height:2, flex:1, backgroundColor: GRAY_700
+    }  
 });
 
 export default styles;

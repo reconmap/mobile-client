@@ -1,9 +1,9 @@
 import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/HomeScreen";
 import ProjectStackNavigation from "../navigations/ProjectStackNavigation";
 import TasksScreen from "../screens/TasksScreen";
+import ReportsScreen from "../screens/ReportsScreen";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
@@ -20,6 +20,8 @@ export default function HomeTabNavigation() {
             iconName = "layers";
           } else if (route.name === "Tasks") {
             iconName = "list";
+          } else if (route.name === "Reports") {
+            iconName = "briefcase";
           }
           return <SimpleLineIcons name={iconName} size={size} color={color} />;
         },
@@ -34,6 +36,7 @@ export default function HomeTabNavigation() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Projects" component={ProjectStackNavigation} />
       <Tab.Screen name="Tasks" component={TasksScreen} />
+      <Tab.Screen name="Reports" component={ReportsScreen} />
     </Tab.Navigator>
   );
 }
