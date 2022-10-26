@@ -6,6 +6,7 @@ This is the mobile client for Reconmap. You can install the app from the [Androi
 
 ```sh
 $ npm install expo-cli --global
+$ npm install
 $ yarn start
 
 # you can open iOS, Android, or web from here, or run them directly with the commands below.
