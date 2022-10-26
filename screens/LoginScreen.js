@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 
 import React, { useState, useContext, useEffect } from "react";
-import { StyleSheet, Text, View, Image, TextInput, AsyncStorage,TouchableOpacity, KeyboardAvoidingView, Platform, Keyboard } from "react-native";
+import { Text, View, Image, TextInput, AsyncStorage,TouchableOpacity, KeyboardAvoidingView, Platform, Keyboard } from "react-native";
 import configuration from "./../Configuration";
 import AppContext from './../contexts/AppContext'
 import Logo from "./../assets/logo_dark_min.png";
